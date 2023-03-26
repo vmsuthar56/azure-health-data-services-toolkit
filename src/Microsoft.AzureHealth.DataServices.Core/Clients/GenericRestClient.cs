@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Azure;
 using Azure.Core;
 using Azure.Core.Pipeline;
-using Azure.Identity;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AzureHealth.DataServices.Bindings;
 using Microsoft.AzureHealth.DataServices.Pipelines;
 using Microsoft.AzureHealth.DataServices.Protocol;
 using Microsoft.Extensions.Logging;
@@ -48,7 +43,7 @@ namespace Microsoft.AzureHealth.DataServices.Clients
             if (clientOptions is null)
                 throw new ArgumentNullException(nameof(endpoint));
 
-            // #TODO - "token passthrough" would be enabled by this class being null and the token being passed in a below method.
+            // #TODO - "token passthrough" would be enabled by this parameter being null and the token being passed in a below method.
             if (tokenCredential is null)
                 throw new ArgumentNullException(nameof(tokenCredential));
 
@@ -91,6 +86,7 @@ namespace Microsoft.AzureHealth.DataServices.Clients
         // #TODO - this class should not take an OperationContext because then this client is tightly bound to the Toolkit pipeline and it limits the ability to use this client in other scenarios.
         // Instead it should take a HttpRequestMessage or other lower level types.
         // I would suggest making this class take a HttpMessage and move the logic to convert from OperationContext to HttpMessage into the Pipelines folder. For example you can see AzureFunctionExtensions.
+        // Or have two methods
         public async Task<Response> SendAsync(OperationContext operationContext)
         {
             try

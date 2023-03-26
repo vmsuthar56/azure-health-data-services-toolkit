@@ -1,12 +1,13 @@
 ﻿using System;
 using Azure.Core;
+using Microsoft.AzureHealth.DataServices.Clients;
 
 namespace Microsoft.AzureHealth.DataServices.Bindings
 {
     /// <summary>
     /// Options for REST binding.
     /// </summary>
-    public class RestBindingOptions : ClientOptions
+    public class RestBindingOptions
     {
 
         /// <summary>
@@ -25,9 +26,13 @@ namespace Microsoft.AzureHealth.DataServices.Bindings
         public bool AddResponseHeaders { get; set; } = true;
 
         /// <summary>
-        /// Get or set the TokenCredential.
+        /// Azure credential to be used by the binding.
         /// </summary>
-        public TokenCredential tokenCredential { get; set; }
+        public TokenCredential? Credential { get; set; }
 
+        /// <summary>
+        /// Options for the generic rest client.
+        /// </summary>
+        public GenericRestClientOptions ClientOptions { get; set; }
     }
 }

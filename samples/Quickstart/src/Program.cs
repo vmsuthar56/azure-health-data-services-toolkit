@@ -50,14 +50,10 @@ using IHost host = new HostBuilder()
         // Add our header modification as the first filter
         services.AddInputFilter(typeof(QuickstartFilter));
 
-        // Add our binding to pass the call to the FHIR service
-
+        // Add our binding to pass the call to the FHIR service using the identity of the hosting service.
         RestBindingOptions restBindingOptions = new();
-        restBindingOptions.Retry.Delay = TimeSpan.FromSeconds(1);
-        restBindingOptions.Retry.Mode = RetryMode.Exponential;
         restBindingOptions.ServerUrl = config.FhirServerUrl;
-        restBindingOptions.Retry.MaxRetries = 3;
-        restBindingOptions.tokenCredential = new DefaultAzureCredential(true);
+        restBindingOptions.Credential = new DefaultAzureCredential(true);
         services.AddRestBinding(restBindingOptions);
     })
     .Build();
